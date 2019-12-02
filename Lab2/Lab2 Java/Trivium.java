@@ -9,8 +9,8 @@ import java.util.stream.IntStream;
 public class Trivium {
 
     private int[] initial_State = new int[288];
-    private int[] key_Array = new int[80];
-    private int[] IV_Array = new int[80];
+//    private int[] key_Array = new int[80];
+//    private int[] IV_Array = new int[80];
     private int[] keystream;
 
     private String key;
@@ -26,15 +26,14 @@ public class Trivium {
         String[] keyArray = key.split("");
         String[] vectorArray = IV.split("");
 
-        IntStream.range(0, keyArray.length).forEach(i -> key_Array[i] = Integer.parseInt(keyArray[i]));
-        IntStream.range(0, vectorArray.length).forEach(i -> IV_Array[i] = Integer.parseInt(vectorArray[i]));
-
-        IntStream.range(0, key_Array.length).forEach(i -> initial_State[i] = key_Array[i]);
-        IntStream.range(93, vectorArray.length).forEach(i -> initial_State[i] = IV_Array[i]);
+        IntStream.range(0, keyArray.length).forEach(i -> initial_State[i] = Integer.parseInt(keyArray[i]));
+        IntStream.range(0, vectorArray.length).forEach(i -> initial_State[i+keyArray.length] = Integer.parseInt(vectorArray[i]));
 
         initial_State[285] = 1;
         initial_State[286] = 1;
         initial_State[287] = 1;
+
+//        IntStream.range(0, initial_State.length).forEach(i -> System.out.print(initial_State[i]));
 
         for(int i = 0; i < 4*288; i ++) {
 
@@ -86,7 +85,6 @@ public class Trivium {
         String[] s = convertArrayToStringMethod(originalList).split("");
         keyStream(convertArrayToStringMethod(originalList).length());
         int[] encryptedMessage = new int[keystream.length];
-
         IntStream.range(0, keystream.length).forEach(i -> encryptedMessage[i] = Integer.parseInt(s[i]) ^ keystream[i]);
 
 
@@ -97,7 +95,6 @@ public class Trivium {
             sb.append(" ");
             k += s1.length();
         }
-
 
         return sb.toString().split(" ");
     }

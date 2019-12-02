@@ -36,17 +36,26 @@ public class TriviumTest {
         key = converter.manipulateKey(key);
         IV = converter.manipulateIV(IV);
 
-        String str = "Kriptografija";
+        String str = "Trivium is a synchronous stream cipher " +
+                "designed to provide a flexible trade-off between speed " +
+                "and gate count in hardware, and reasonably efficient software " +
+                "implementation.";
+
+        String str1 = "Kriptografija";
+
+
         String strBinary = converter.text_to_binary(str);
-        System.out.println(str);
+        System.out.println(str + "\n");
+
 
         String[] array = strBinary.split(" ");
-
+//        System.out.println("ORIGINAL:");
+//        System.out.println(converter.text_to_binary(str));
         Trivium trivium = new Trivium(key, IV);
 
         String cipher = converter.binary_to_test(trivium.encrypt(array));
         String cipherBinary = converter.text_to_binary(cipher);
-        System.out.println(cipher);
+        System.out.println(cipher + "\n");
 
         String[] cipherArray = tt.fillLeadingZeros(strBinary, cipherBinary);
 

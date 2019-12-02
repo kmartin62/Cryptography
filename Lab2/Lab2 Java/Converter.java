@@ -37,7 +37,7 @@ class Converter {
             for(int i = key.length(); i < 80; i ++){
                 pom.append("0");
             }
-            return key + pom;
+            return pom + key;
         }
         else {
             return key;
@@ -51,7 +51,7 @@ class Converter {
             for(int i = IV.length(); i < 80; i ++){
                 pom.append("0");
             }
-            return IV + pom;
+            return pom + IV;
         }
         else {
             return IV;
