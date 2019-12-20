@@ -2,7 +2,6 @@ package Cryptography.Lab4;
 
 import Cryptography.Lab3.DES;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class BlockCBC {
     private long IV;
 
 
-    public BlockCBC(Map blocks, long key, long IV) {
+    BlockCBC(Map blocks, long key, long IV) {
         this.blocks = new HashMap();
         cipherMap = new HashMap<>();
         this.blocks = blocks;
@@ -30,7 +29,7 @@ public class BlockCBC {
     }
 
 
-    public String encryptCBC() {
+    String encryptCBC() {
 
         StringBuilder sb = new StringBuilder();
         long roundIV = IV;
@@ -46,19 +45,32 @@ public class BlockCBC {
         return sb.toString();
     }
 
-    public String decryptCBC(){
+    String decryptCBC(){
         StringBuilder sb = new StringBuilder();
         long roundIV = IV;
 
-        for(int i = 0; i < cipherMap.size(); i ++) {
-            long c = cipherMap.get(i);
+        for(Map.Entry<Integer, Long> m : cipherMap.entrySet()) {
+            long c = cipherMap.get(m.getKey());
             long decipher = des.decrypt(c, key);
             long text = decipher ^ roundIV;
             sb.append(longToString(text));
             roundIV = c;
         }
 
+
         return sb.toString();
+    }
+
+    public void deleteBlock(int block_number) {
+        cipherMap.remove(block_number);
+    }
+
+    public void replaceBlocks(int block_1, int block_2) {
+        long block1 = cipherMap.get(block_1);
+        long block2 = cipherMap.get(block_2);
+
+        cipherMap.put(block_1, block2);
+        cipherMap.put(block_2, block1);
     }
 
 

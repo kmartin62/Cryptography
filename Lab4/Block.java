@@ -7,7 +7,7 @@ public class Block {
 
     private String stringBits;
 
-    public Block(String stringBits) {
+    Block(String stringBits) {
         this.stringBits = stringBits;
     }
 

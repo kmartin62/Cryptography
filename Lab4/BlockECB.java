@@ -6,64 +6,56 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static Cryptography.Lab4.Utils.longToString;
-import static Cryptography.Lab4.Utils.strToLng;
 
 /**
  * Created by @kmartin62
  */
 public class BlockECB {
     private Map blocks;
-    private HashMap decipherMap = new HashMap();
-    private HashMap<Integer, Long> cipherMap = new HashMap<>();
+    private Map<Integer, Long> cipherMap;
     private DES des;
     private long key;
 
-    public BlockECB(Map mapa, long key) {
+    BlockECB(Map mapa, long key) {
         this.blocks = new HashMap();
         this.blocks = mapa;
         this.key = key;
         des = new DES();
+        cipherMap = new HashMap<>();
     }
 
 
-    public String encryptECB() {
+    String encryptECB() {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < blocks.size(); i ++) {
             String s = blocks.get(i).toString();
             long cipher = des.encrypt(Long.parseLong(s, 2), key);
             cipherMap.put(i, cipher);
-            decipherMap.put(i, des.decrypt(cipher, key));
             sb.append(longToString(cipher));
         }
         return sb.toString();
     }
 
-    public String decryptECB(){
+    String decryptECB(){
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < decipherMap.size(); i ++) {
-            sb.append(longToString(des.decrypt(cipherMap.get(i), key)));
-//            System.out.println(longToString(des.decrypt(cipherMap.get(i), key)));
+        for(Map.Entry<Integer, Long> m : cipherMap.entrySet()) {
+            sb.append(longToString(des.decrypt(cipherMap.get(m.getKey()), key)));
         }
 
         return sb.toString();
 
     }
 
-    public void deleteCipherBlock(int block_number){
-        decipherMap.replace(block_number, null);
+    void replaceBlocks(int block_1, int block_2) {
+        long block1 = cipherMap.get(block_1);
+        long block2 = cipherMap.get(block_2);
+
+        cipherMap.put(block_1, block2);
+        cipherMap.put(block_2, block1);
     }
 
     public void deleteBlock(int block_number) {
-        cipherMap.replace(block_number, null);
+        cipherMap.remove(block_number);
     }
 
-    public void insertBlock(int block_number, String str) {
-        if(cipherMap.containsKey(block_number)){
-            long d = strToLng(str);
-            cipherMap.replace(block_number, d);
-        }
-        else {
-            System.out.println("Nevaliden vlez");
-        }
-    }
 }

@@ -42,7 +42,6 @@ public class Utils {
             String s = Long.toBinaryString(strToLng(lista.get(i).toString()));
             mapa.put(i, s);
         }
-//        System.out.println(mapa);
 
         return mapa;
     }

@@ -1,8 +1,5 @@
 package Cryptography.Lab4;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static Cryptography.Lab4.Utils.*;
@@ -17,7 +14,9 @@ public class Main {
         final long key = 591826312;
         final long IV = Long.parseLong("00003442A91077DE45AC", 16);
 
-        String str1 = "Knigata po Kriptografija vredi 10 dolari";
+        String str1 = "Alice digs Bob. Trudy digs Tom. ";
+
+//        String str1 = "Knigata po Kriptografija vredi 10 dolari";
 
         System.out.println("ECB MODE:");
         Map blocks = splitToBlocks(str1);
@@ -26,8 +25,10 @@ public class Main {
         String m = blockECB.encryptECB();
 //        blockECB.deleteBlock(4);
         System.out.println(m);
-//        System.out.println(mapa1);
         System.out.println("-------------------------------------------------------------------------");
+        blockECB.replaceBlocks(3, 1);
+//        blockECB.deleteBlock(1);
+//        blockECB.deleteBlock(2);
         String decipher = blockECB.decryptECB();
         System.out.println(decipher);
 
@@ -37,6 +38,9 @@ public class Main {
         String mcbc = blockCBC.encryptCBC();
         System.out.println(mcbc);
         System.out.println("-------------------------------------------------------------------------");
+//        blockCBC.replaceBlocks(3, 1);
+//        blockCBC.deleteBlock(1);
+//        blockCBC.deleteBlock(2);
         String decipherCBC = blockCBC.decryptCBC();
         System.out.println(decipherCBC);
 
